@@ -5,27 +5,39 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
-  <title>Chat App 💬</title>
+  <title>ChatDirect App 💬</title>
 </head>
 <body>
-  <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off"/><button>Send</button>
-    </form>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
-
-    const form = document.getElementById('form')
-    const input = document.getElementById('input')
-
-    form.addEventListener('submit', event => {
-        event.preventDefault()
-        if (input.value) {
-            socket.emit('chat message', input.value)
-            input.value = ''
-        }
-    })
-  </script>
+  <div class="join-container">
+    <header class="join-header">
+      <h1><i class="fas fa-smile"></i> ChatDirect</h1>
+    </header>
+    <main class="join-main">
+      <form action="chat.html">
+        <div class="form-control">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter username..."
+            required
+          />
+        </div>
+        <div class="form-control">
+          <label for="room">Room</label>
+          <select name="room" id="room">
+            <option value="Reading">Reading</option>
+            <option value="Television">Television</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Music">Music</option>
+            <option value="Sports">Sports</option>
+            <option value="Technology">Technology</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Join Chat Room</button>
+      </form>
+    </main>
+  </div>
 </body>
 </html>
