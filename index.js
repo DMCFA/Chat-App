@@ -1,19 +1,36 @@
-//Global variables
+//Requirements
 require('dotenv').config()
 const path = require('path')
 const express = require('express')
-const app = express()
 const http = require('http')
-const server = http.createServer(app)
-const { Server } = require('socket.io')
-const io = new Server(server);
-const port = process.env.PORT
+const socket = require('socket.io')
 
+//Global variables
+const app = express()
+const server = http.createServer(app)
+const io = socket(server)
+const port = process.env.PORT || 3000
+
+//Static folder
 app.use(express.static(path.join(__dirname, '/public')));
 
-io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-        console.log('message: ' + msg);
+//Client connection
+io.on('connection', socket => {
+    
+    //Welcome message to user
+    socket.emit('message', 'Welcome to ChatDirect');
+
+    //Anounce new connected user
+    socket.broadcast.emit('message', 'A user has entered the room')
+
+    //Anounce disconnected user
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has left the room')
+    })
+
+    //Capture chat messages
+    socket.on('chatMessage', msg => {
+        console.log(msg);
     })
 })
 
