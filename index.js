@@ -1,5 +1,6 @@
 //Global variables
 require('dotenv').config()
+const path = require('path')
 const express = require('express')
 const app = express()
 const http = require('http')
@@ -8,7 +9,7 @@ const { Server } = require('socket.io')
 const io = new Server(server);
 const port = process.env.PORT
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '/public')));
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {

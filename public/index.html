@@ -4,13 +4,22 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+	/>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <title>ChatDirect App 💬</title>
 </head>
 <body>
   <div class="join-container">
     <header class="join-header">
-      <h1><i class="fas fa-smile"></i> ChatDirect</h1>
+      <h1> ChatDirect <i class="far fa-comment-dots"></i></h1>
     </header>
     <main class="join-main">
       <form action="chat.html">
@@ -20,12 +29,12 @@
             type="text"
             name="username"
             id="username"
-            placeholder="Enter username..."
+            placeholder="Pick your username"
             required
           />
         </div>
         <div class="form-control">
-          <label for="room">Room</label>
+          <label for="room">Chat Room</label>
           <select name="room" id="room">
             <option value="Reading">Reading</option>
             <option value="Television">Television</option>
@@ -35,7 +44,7 @@
             <option value="Technology">Technology</option>
           </select>
         </div>
-        <button type="submit" class="btn">Join Chat Room</button>
+        <button type="submit" class="btn">Join Room <i class="fas fa-sign-in-alt"></i></button>
       </form>
     </main>
   </div>
