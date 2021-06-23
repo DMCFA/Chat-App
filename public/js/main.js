@@ -8,6 +8,8 @@ const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 })
 
+socket.emit('joinedRoom', { username, room })
+
 //Catch Messages
 socket.on('message', message => {
     outputMessage(message)
