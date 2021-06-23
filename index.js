@@ -31,6 +31,11 @@ io.on('connection', socket => {
         //Anounce new connected user
         socket.broadcast.to(user.room).emit('message', formatMessage(msgBot, `${user.username} has entered the room`))
 
+        //Send room and users information
+        io.to(user.room).emit('roomUsers', {
+            room: user.room,
+            users: getRoomUsers(user.room)
+        })
     })
 
     //Anounce disconnected user
@@ -40,6 +45,12 @@ io.on('connection', socket => {
 
         if(user) {
             io.to(user.room).emit('message', formatMessage(msgBot, `${user.username} has left the room`))
+             
+            //Send room and users information
+            io.to(user.room).emit('roomUsers', {
+                room: user.room,
+                users: getRoomUsers(user.room)
+            })
         }
     })
 

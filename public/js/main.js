@@ -2,6 +2,8 @@
 const socket = io()
 const form = document.getElementById('chat-form')
 const messages = document.querySelector('.chat-messages')
+const roomName = document.getElementById('room-name')
+const userNames = document.getElementById('users')
 
 //Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -9,6 +11,12 @@ const { username, room } = Qs.parse(location.search, {
 })
 
 socket.emit('joinedRoom', { username, room })
+
+//Get room and users
+socket.on('roomUsers', ({ room, users }) => {
+    outputRoomName(room)
+    outputUserNames(users)
+})
 
 //Catch Messages
 socket.on('message', message => {
@@ -42,4 +50,15 @@ const outputMessage = (message) => {
         ${message.text}
     </p>`
     document.querySelector('.chat-messages').appendChild(div)
+}
+
+//Send room name to the DOM
+const outputRoomName = room => {
+    roomName.innerText = room
+}
+
+//Send user names to the DOM
+const outputUserNames = users => {
+    userNames.innerHTML = 
+        `${users.map(user => `<li>${user.username}</li>`).join('')}`
 }
