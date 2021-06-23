@@ -5,7 +5,7 @@ const express = require('express')
 const http = require('http')
 const socket = require('socket.io')
 const formatMessage = require('./utils/msg')
-const { joinUser, getUser } = require('./utils/users')
+const { joinUser, userLeaving, getUser, getRoomUsers } = require('./utils/users')
 
 //Global variables
 const app = express()
@@ -35,12 +35,20 @@ io.on('connection', socket => {
 
     //Anounce disconnected user
     socket.on('disconnect', () => {
-        io.emit('message', formatMessage(msgBot, `A user has left the room`))
+
+        const user = userLeaving(socket.id)
+
+        if(user) {
+            io.to(user.room).emit('message', formatMessage(msgBot, `${user.username} has left the room`))
+        }
     })
 
     //Capture chat messages
     socket.on('chatMessage', msg => {
-        io.emit('message', formatMessage('USER', msg))
+
+        const user = getUser(socket.id)
+
+        io.to(user.room).emit('message', formatMessage(user.username, msg))
     })
 })
 
