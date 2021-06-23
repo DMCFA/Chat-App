@@ -5,6 +5,7 @@ const express = require('express')
 const http = require('http')
 const socket = require('socket.io')
 const formatMessage = require('./utils/msg')
+const { joinUser, getUser } = require('./utils/users')
 
 //Global variables
 const app = express()
@@ -18,16 +19,23 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 //Client connection
 io.on('connection', socket => {
-    
-    //Welcome message to user
-    socket.emit('message', formatMessage(msgBot, 'Welcome to ChatDirect'))
+    socket.on('joinedRoom', ({ username, room }) => {
 
-    //Anounce new connected user
-    socket.broadcast.emit('message', formatMessage(msgBot, 'A user has entered the room'))
+        const user = joinUser(socket.id, username, room)
+
+        socket.join(user.room)
+
+        //Welcome message to user
+        socket.emit('message', formatMessage(msgBot, 'Welcome to ChatDirect'))
+
+        //Anounce new connected user
+        socket.broadcast.to(user.room).emit('message', formatMessage(msgBot, `${user.username} has entered the room`))
+
+    })
 
     //Anounce disconnected user
     socket.on('disconnect', () => {
-        io.emit('message', formatMessage(msgBot, 'A user has left the room'))
+        io.emit('message', formatMessage(msgBot, `A user has left the room`))
     })
 
     //Capture chat messages
